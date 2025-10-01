@@ -14,6 +14,14 @@ class Commentaires
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\ManyToOne(inversedBy: 'commentaires')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Conjoints $conjoint = null;
+
+    #[ORM\ManyToOne(inversedBy: 'commentaires')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     #[ORM\Column(type: Types::TEXT)]
     private ?string $commentaire = null;
 
@@ -23,17 +31,33 @@ class Commentaires
     #[ORM\Column]
     private ?int $note = null;
 
-    #[ORM\ManyToOne(inversedBy: 'commentaires')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Conjoints $conjoint = null;
-
-    #[ORM\ManyToOne(inversedBy: 'commentaires')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Users $user = null;
-
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getConjoint(): ?Conjoints
+    {
+        return $this->conjoint;
+    }
+
+    public function setConjoint(?Conjoints $conjoint): static
+    {
+        $this->conjoint = $conjoint;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     public function getCommentaire(): ?string
@@ -68,30 +92,6 @@ class Commentaires
     public function setNote(int $note): static
     {
         $this->note = $note;
-
-        return $this;
-    }
-
-    public function getConjoint(): ?Conjoints
-    {
-        return $this->conjoint;
-    }
-
-    public function setConjoint(?Conjoints $conjoint): static
-    {
-        $this->conjoint = $conjoint;
-
-        return $this;
-    }
-
-    public function getUser(): ?Users
-    {
-        return $this->user;
-    }
-
-    public function setUser(?Users $user): static
-    {
-        $this->user = $user;
 
         return $this;
     }

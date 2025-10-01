@@ -16,6 +16,14 @@ class Conjoints
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\ManyToOne(inversedBy: 'conjoints')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $proprietaire = null;
+
+    #[ORM\ManyToOne(inversedBy: 'conjoints')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $emprunteur = null;
+
     #[ORM\Column(length: 255)]
     private ?string $pseudo = null;
 
@@ -25,24 +33,17 @@ class Conjoints
     #[ORM\Column(length: 255)]
     private ?string $sexe = null;
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $img = null;
+
     #[ORM\Column(length: 255)]
     private ?string $style = null;
 
     #[ORM\Column(length: 255)]
     private ?string $categorie = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $img = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $description = null;
-
-    #[ORM\ManyToOne(inversedBy: 'conjoints')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Users $proprietaire = null;
-
-    #[ORM\ManyToOne(inversedBy: 'conjoints')]
-    private ?Users $emprunteur = null;
 
     /**
      * @var Collection<int, Commentaires>
@@ -60,6 +61,30 @@ class Conjoints
         return $this->id;
     }
 
+    public function getProprietaire(): ?User
+    {
+        return $this->proprietaire;
+    }
+
+    public function setProprietaire(?User $proprietaire): static
+    {
+        $this->proprietaire = $proprietaire;
+
+        return $this;
+    }
+
+    public function getEmprunteur(): ?User
+    {
+        return $this->emprunteur;
+    }
+
+    public function setEmprunteur(?User $emprunteur): static
+    {
+        $this->emprunteur = $emprunteur;
+
+        return $this;
+    }
+
     public function getPseudo(): ?string
     {
         return $this->pseudo;
@@ -72,12 +97,12 @@ class Conjoints
         return $this;
     }
 
-    public function getAge(): ?int
+    public function getAge(): ?string
     {
         return $this->age;
     }
 
-    public function setAge(int $age): static
+    public function setAge(string $age): static
     {
         $this->age = $age;
 
@@ -92,6 +117,30 @@ class Conjoints
     public function setSexe(string $sexe): static
     {
         $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getImg(): ?string
+    {
+        return $this->img;
+    }
+
+    public function setImg(string $img): static
+    {
+        $this->img = $img;
 
         return $this;
     }
@@ -116,54 +165,6 @@ class Conjoints
     public function setCategorie(string $categorie): static
     {
         $this->categorie = $categorie;
-
-        return $this;
-    }
-
-    public function getImg(): ?string
-    {
-        return $this->img;
-    }
-
-    public function setImg(string $img): static
-    {
-        $this->img = $img;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getProprietaire(): ?Users
-    {
-        return $this->proprietaire;
-    }
-
-    public function setProprietaire(?Users $proprietaire): static
-    {
-        $this->proprietaire = $proprietaire;
-
-        return $this;
-    }
-
-    public function getEmprunteur(): ?Users
-    {
-        return $this->emprunteur;
-    }
-
-    public function setEmprunteur(?Users $emprunteur): static
-    {
-        $this->emprunteur = $emprunteur;
 
         return $this;
     }
