@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conjoints index{% endblock %}
+
+{% block body %}
+    <h1>Conjoints index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Pseudo</th>
+                <th>Age</th>
+                <th>Sexe</th>
+                <th>Description</th>
+                <th>Img</th>
+                <th>Style</th>
+                <th>Categorie</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for conjoint in conjoints %}
+            <tr>
+                <td>{{ conjoint.id }}</td>
+                <td>{{ conjoint.pseudo }}</td>
+                <td>{{ conjoint.age }}</td>
+                <td>{{ conjoint.sexe }}</td>
+                <td>{{ conjoint.description }}</td>
+                <td>{{ conjoint.img }}</td>
+                <td>{{ conjoint.style }}</td>
+                <td>{{ conjoint.categorie }}</td>
+                <td>
+                    <a href="{{ path('app_conjoints_show', {'id': conjoint.id}) }}">show</a>
+                    <a href="{{ path('app_conjoints_edit', {'id': conjoint.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_conjoints_new') }}">Create new</a>
+{% endblock %}
