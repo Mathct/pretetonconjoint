@@ -13,10 +13,15 @@
                 <div><strong>Age : </strong>{{ conjoint.age }} ans</div>
                 <div><strong>Genre : </strong>{{ conjoint.sexe }}</div>
                 <div><strong>Catégorie : </strong>{{ conjoint.categorie }}</div>
+                {% if app.user %}
                 <div>
                     <a href="{{ path('app_conjoints_show', {'id': conjoint.id}) }}"><button>Voir le produit</button></a>
                 </div>
-    
+                {% else %}
+                <div>
+                    <a href="{{ path('app_login') }}"><button>Connectez vous pour profiter du produit</button></a>
+                </div>
+                {% endif %}
         {% else %}
             
                 <td colspan="9">Aucun produits disponible</td>
