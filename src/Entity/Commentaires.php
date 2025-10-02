@@ -31,6 +31,12 @@ class Commentaires
     #[ORM\Column]
     private ?int $note = null;
 
+    public function __construct()
+    {
+        $this->createAt = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')); // Met automatiquement la date du jour
+        
+    }
+
     public function getId(): ?int
     {
         return $this->id;
