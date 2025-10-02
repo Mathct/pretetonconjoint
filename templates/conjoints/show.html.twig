@@ -17,6 +17,7 @@
         
 <div><strong>Description :</strong> {{ conjoint.description }}</div>
         
+<div><button>Emprunter</button></div>
 
 
 <a href="{{ path('app_conjoints_index') }}">Retour à la liste</a>
@@ -32,6 +33,13 @@
         <strong>Date de publication:</strong> {{ commentaire.createAt ? commentaire.createAt|date('Y-m-d H:i:s') : '' }}<br>
         <strong>Commentaire :</strong> {{commentaire.commentaire}}<br>
         <strong>Note :</strong> {{commentaire.note}}<br><br>
+    
         {% endfor %}
 </div>
-{% endblock %}
+{# {{form(form)}}
+ #}
+ {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+ {% endblock %}
