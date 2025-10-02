@@ -21,7 +21,6 @@ class Conjoints
     private ?User $proprietaire = null;
 
     #[ORM\ManyToOne(inversedBy: 'conjoints')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?User $emprunteur = null;
 
     #[ORM\Column(length: 255)]
