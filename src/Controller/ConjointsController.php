@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Commentaires;
 use App\Entity\Conjoints;
+use App\Form\CommentairesType;
 use App\Form\ConjointsType;
 use App\Repository\ConjointsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -51,11 +53,24 @@ final class ConjointsController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_conjoints_show', methods: ['GET'])]
-    public function show(Conjoints $conjoint): Response
+    #[Route('/{id}', name: 'app_conjoints_show')]
+    public function show(Conjoints $conjoint, Request $request, EntityManagerInterface $entityManager, $id): Response
     {
+        $commentaire = new Commentaires();
+        $form = $this->createForm(CommentairesType::class, $commentaire);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->persist($commentaire);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_conjoints_show', ['id'=> $id], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('conjoints/show.html.twig', [
             'conjoint' => $conjoint,
+            "form" => $form
         ]);
     }
 
