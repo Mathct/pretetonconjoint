@@ -3,48 +3,45 @@
 {% block title %}Conjoints{% endblock %}
 
 {% block body %}
-    <h1>Conjoints</h1>
+<h1>{{ conjoint.pseudo }}</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ conjoint.id }}</td>
-            </tr>
-            <tr>
-                <th>Pseudo</th>
-                <td>{{ conjoint.pseudo }}</td>
-            </tr>
-            <tr>
-                <th>Age</th>
-                <td>{{ conjoint.age }}</td>
-            </tr>
-            <tr>
-                <th>Sexe</th>
-                <td>{{ conjoint.sexe }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ conjoint.description }}</td>
-            </tr>
-            <tr>
-                <th>Img</th>
-                <img src=" {{ asset('uploads/' ~ conjoint.img) }} " alt="">
-            </tr>
-            <tr>
-                <th>Style</th>
-                <td>{{ conjoint.style }}</td>
-            </tr>
-            <tr>
-                <th>Categorie</th>
-                <td>{{ conjoint.categorie }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div><img src=" {{ asset('uploads/' ~ conjoint.img) }} " alt=""></div>
 
-    <a href="{{ path('app_conjoints_index') }}">back to list</a>
+<div>Age: {{ conjoint.age }}</div>
+        
+        <div>
+            <th>Categorie : </th>
+            <td>{{ conjoint.categorie }}</td>
+        </div>
+        
+        <div>
+            <th>Sexe : </th>
+            <td>{{ conjoint.sexe }}</td>
+        </div>
+        <div>
+            <th>Style : </th>
+            <td>{{ conjoint.style }}</td>
+        </div>
+        <div>
+            <th>Description</th>
+            <td>{{ conjoint.description }}</td>
+        </div>
+        
 
-    <a href="{{ path('app_conjoints_edit', {'id': conjoint.id}) }}">edit</a>
 
-    {{ include('conjoints/_delete_form.html.twig') }}
+<a href="{{ path('app_conjoints_index') }}">back to list</a>
+
+<a href="{{ path('app_conjoints_edit', {'id': conjoint.id}) }}">edit</a>
+
+{{ include('conjoints/_delete_form.html.twig') }}
+
+<h2>Commentaires</h2>
+<div>
+    {% for commentaire in conjoint.commentaires %}
+        <strong>Date de publication:</strong> {{ commentaire.createAt ? commentaire.createAt|date('Y-m-d H:i:s') : '' }}<br>
+        <strong>Note :</strong> {{commentaire.note}}<br>
+        <strong>Utilisateur :</strong> {{commentaire.user.id}}<br>
+        <strong>Commentaire :</strong> {{commentaire.commentaire}}<br><br>
+        {% endfor %}
+</div>
 {% endblock %}
