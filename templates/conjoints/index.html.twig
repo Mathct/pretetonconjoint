@@ -7,12 +7,12 @@
 
         {% for conjoint in conjoints %}
             
-                <div>{{ conjoint.pseudo }}</div>
-                <div>note</div>
+                <div><strong>Pseudo : </strong>{{ conjoint.pseudo }}</div>
+                <div><strong>Note : </strong></div>
                 <div><img src=" {{ asset('uploads/' ~ conjoint.img) }} " alt=""></div>
-                <div>{{ conjoint.age }} ans</div>
-                <div>{{ conjoint.sexe }}</div>
-                <div>{{ conjoint.categorie }}</div>
+                <div><strong>Age : </strong>{{ conjoint.age }} ans</div>
+                <div><strong>Genre : </strong>{{ conjoint.sexe }}</div>
+                <div><strong>Catégorie : </strong>{{ conjoint.categorie }}</div>
                 <div>
                     <a href="{{ path('app_conjoints_show', {'id': conjoint.id}) }}"><button>Voir le produit</button></a>
                 </div>

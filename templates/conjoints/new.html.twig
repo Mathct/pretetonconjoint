@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Conjoints{% endblock %}
+{% block title %}Nouveaux Conjoints{% endblock %}
 
 {% block body %}
-    <h1>Create new Conjoints</h1>
+    <h1>Créer un nouveaux conjoint</h1>
 
     {{ include('conjoints/_form.html.twig') }}
 
-    <a href="{{ path('app_conjoints_index') }}">back to list</a>
+    <a href="{{ path('app_conjoints_index') }}">Retour à liste</a>
 {% endblock %}

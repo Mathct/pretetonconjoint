@@ -1,18 +1,18 @@
-{% extends 'base.html.twig' %}
+ {% extends 'base.html.twig' %}
 
-{% block title %}Commentaires index{% endblock %}
+{% block title %}Commentaires{% endblock %}
 
 {% block body %}
-    <h1>Commentaires index</h1>
+    <h1>Commentaires des conjoints</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Commentaire</th>
-                <th>CreateAt</th>
-                <th>Note</th>
-                <th>actions</th>
+                <th>Id :</th>
+                <th>Commentaire:</th>
+                <th>Créer le :</th>
+                <th>Note :</th>
+                <th>actions :</th>
             </tr>
         </thead>
         <tbody>
@@ -23,17 +23,17 @@
                 <td>{{ commentaire.createAt ? commentaire.createAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ commentaire.note }}</td>
                 <td>
-                    <a href="{{ path('app_commentaires_show', {'id': commentaire.id}) }}">show</a>
-                    <a href="{{ path('app_commentaires_edit', {'id': commentaire.id}) }}">edit</a>
+                    <a href="{{ path('app_commentaires_show', {'id': commentaire.id}) }}">Voir</a>
+                    <a href="{{ path('app_commentaires_edit', {'id': commentaire.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_commentaires_new') }}">Create new</a>
+    <a href="{{ path('app_commentaires_new') }}">Créer un nouveau commentaire</a>
 {% endblock %}
