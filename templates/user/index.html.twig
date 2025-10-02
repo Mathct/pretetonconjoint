@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil | pretetonconjoint{% endblock %}
+
+{% block body %}
+<h1>Mon profil</h1>
+<div><img src=" {{ asset('uploads/' ~ user.img) }} " alt=""></div>
+<div>
+    <h2>Pseudo : {{user.pseudo}}</h2>
+    <h2>Email : {{user.email}}</h2>
+    <h2>Age : {{user.age}}</h2>
+    <h2>Sexe : {{user.sexe}}</h2>
+</div>
+{% endblock %}

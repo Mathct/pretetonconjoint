@@ -11,6 +11,24 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
+    <header>
+        <nav>
+            <nav>
+    {% if app.user %}
+    <div>
+        <a href="{{ path('app_conjoints_new') }}"><button>Ajouter mon/ma conjoint(e)</button></a>
+        <a href="{{ path('app_logout') }}"><button>Déconnexion</button></a>
+    </div>
+    <div>
+        <a href="{{ path('app_user', {'id': app.user.id}) }}"><button>Mon profil</button></a>
+    </div>
+    {% else %}
+        <a href="{{ path('app_login') }}"><button>Connexion</button></a>
+        <a href="{{ path('app_register') }}"><button>Inscription</button></a>
+    {% endif %}
+</nav>
+        </nav>
+    </header>
     <body>
         {% block body %}{% endblock %}
     </body>
