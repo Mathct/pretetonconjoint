@@ -50,9 +50,13 @@ class Conjoints
     #[ORM\OneToMany(targetEntity: Commentaires::class, mappedBy: 'conjoint', orphanRemoval: true)]
     private Collection $commentaires;
 
+    #[ORM\Column]
+    private ?bool $accept = null;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
+        $this->accept = false;
     }
 
     public function getId(): ?int
@@ -194,6 +198,18 @@ class Conjoints
                 $commentaire->setConjoint(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isAccept(): ?bool
+    {
+        return $this->accept;
+    }
+
+    public function setAccept(bool $accept): static
+    {
+        $this->accept = $accept;
 
         return $this;
     }
