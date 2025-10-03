@@ -56,7 +56,15 @@ final class ConjointsController extends AbstractController
     #[Route('/{id}', name: 'app_conjoints_show')]
     public function show(Conjoints $conjoint, Request $request, EntityManagerInterface $entityManager, $id): Response
     {
+
+        $user = $this->getUser();
+       
         $commentaire = new Commentaires();
+        
+        $conjoint = $entityManager->getRepository(Conjoints::class)->find($id);
+        $commentaire->setConjoint($conjoint);
+        $commentaire->setUser($user);
+
         $form = $this->createForm(CommentairesType::class, $commentaire);
         $form->handleRequest($request);
 
