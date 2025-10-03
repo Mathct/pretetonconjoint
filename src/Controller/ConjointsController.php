@@ -68,9 +68,20 @@ final class ConjointsController extends AbstractController
             return $this->redirectToRoute('app_conjoints_show', ['id'=> $id], Response::HTTP_SEE_OTHER);
         }
 
+        $commentaires = $conjoint->getCommentaires();
+        $notes = [];
+        foreach ($commentaires as $commentaire)
+        {
+            $notes[] = $commentaire->getNote();
+        }
+        $moyenne = array_sum($notes) / count($notes);
+        $moyenne = round($moyenne, 1);
+
+
         return $this->render('conjoints/show.html.twig', [
             'conjoint' => $conjoint,
-            "form" => $form
+            "form" => $form,
+            'moyenne' => $moyenne,
         ]);
     }
 
