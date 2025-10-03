@@ -12,6 +12,10 @@
         {% endblock %}
     </head>
 <header>
+<div class="logo">
+    <img src="{{asset('img/logoconjoint.png')}}" alt="">
+</div>
+
     <nav>
         {% if app.user %}
             <div class="nav-buttons">
@@ -29,7 +33,7 @@
                 {% else %}
                     {# Sur sa propre page : bouton vers app_conjoints_index #}
                     <a href="{{ path('app_conjoints_index') }}">
-                        <button>Trouver mon conjoint</button>
+                        <button>Retour a la liste</button>
                     </a>
                 {% endif %}
 
