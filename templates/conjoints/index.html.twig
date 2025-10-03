@@ -34,7 +34,21 @@
                             </div>
                             <div class="detail-row">
                                 <span class="detail-label">Note:</span>
-                                <span class="detail-rating">★★★★☆</span>
+                                <span style="color: var(--secondary-color); font-weight: 600; display: flex; align-items: center; gap: 0.25rem;">
+                                    {% if conjoint.commentaires|length > 0 %}
+                                        {% set total = conjoint.commentaires|map(c => c.note)|reduce((carry, v) => carry + v) %}
+                                        {% set moyenne = (total / conjoint.commentaires|length)|round(1) %}
+                                        {% for i in 1..5 %}
+                                            {% if i <= moyenne %}
+                                                ⭐
+                                            {% else %}
+                                                ☆
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        ☆☆☆☆☆
+                                    {% endif %}
+                                </span>
                             </div>
                         </div>
 
