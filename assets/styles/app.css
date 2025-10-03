@@ -47,12 +47,33 @@ header .container {
 
 .logo {
     width: 180px;
-    transition: transform 0.3s ease;
+    /* transition: transform 0.3s ease; */
+    animation: heartbeat 1s infinite ease-in-out;
 }
 
-.logo:hover {
-    transform: scale(1.05);
+@keyframes heartbeat {
+0%, 100% {
+transform: scale(1);
 }
+25% {
+transform: scale(1.1);
+}
+40% {
+transform: scale(1);
+}
+60% {
+transform: scale(1.1);
+}
+75% {
+transform: scale(1);
+}
+}
+
+/* .logo:hover {
+    transform: scale(1.05);
+} */
+
+
 
 .logo img {
     width: 100%;
