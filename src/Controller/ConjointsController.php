@@ -96,6 +96,7 @@ final class ConjointsController extends AbstractController
             'conjoint' => $conjoint,
             "form" => $form,
             'moyenne' => $moyenne,
+            'user' => $user
         ]);
     }
 
@@ -202,6 +203,21 @@ final class ConjointsController extends AbstractController
         $em->flush();
 
         $this->addFlash('success', 'Vous avez rendu ce conjoint.');
+        return $this->redirectToRoute('app_conjoints_index');
+    }
+
+        #[Route('/conjoints/{id}/refus', name: 'app_conjoints_refus')]
+    public function refus(Conjoints $conjoint, EntityManagerInterface $em): Response
+    {
+        // Vérifie que l’utilisateur qui rend est bien l’emprunteur
+        if ($conjoint->getProprietaire() == $this->getUser()) {
+            // Refuser le conjoint disponible
+        $conjoint->setEmprunteur(null);
+        $conjoint->setAccept(false);
+
+        $em->flush();
+        }
+
         return $this->redirectToRoute('app_conjoints_index');
     }
 
