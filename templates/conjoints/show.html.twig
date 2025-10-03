@@ -68,10 +68,12 @@
                 <h3 style="margin-bottom: 1rem; color: var(--text-dark);">Intéressé(e) ?</h3>
     <div>
         <h3>{{ conjoint.pseudo }} ({{ conjoint.age }} ans)</h3>
-        {% if user.id != conjoint.proprietaire and conjoint.emprunteur is null %}
+        {% if  conjoint.emprunteur is null %}
+             {% if  app.user.id != conjoint.proprietaire.id %}
             <a href="{{ path('app_conjoints_emprunter', {id: conjoint.id}) }}">
                 <button>Emprunter</button>
             </a>
+            {% endif %}
         {% elseif conjoint.emprunteur == app.user and conjoint.accept %}
             <span>Vous l'avez emprunté ✅</span>
             <a href="{{ path('app_conjoints_rendre', {id: conjoint.id}) }}">
@@ -79,6 +81,8 @@
             </a>
         {% elseif conjoint.emprunteur == app.user and not conjoint.accept %}
             <span>En attente de validation du propriétaire ⏳</span>
+        {% elseif conjoint.proprietaire == app.user and not conjoint.accept %}
+            <span>Demande d'emprunt de {{ conjoint.emprunteur.pseudo  }}</span>
         {% else %}
             <span>Déjà emprunté par {{ conjoint.emprunteur.pseudo }}</span>
         {% endif %}
@@ -88,7 +92,13 @@
                 <button>Accepter</button>
             </a>
         {% endif %}
-    </div>
+
+        {% if conjoint.proprietaire == app.user and conjoint.emprunteur != null and not conjoint.accept %}
+            <a href="{{ path('app_conjoints_refus', {id: conjoint.id}) }}">
+                <button>Refuser</button>
+            </a>
+        {% endif %}
+            </div>
                 <p style="color: var(--text-light); font-size: 0.9rem;">
                     Votre demande sera directement envoyé au propriétaire du produit
                 </p>
