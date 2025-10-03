@@ -97,8 +97,20 @@ final class ConjointsController extends AbstractController
         $form = $this->createForm(ConjointsType::class, $conjoint);
         $form->handleRequest($request);
 
+        $oldimage = $conjoint->getImg();
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('img')->getData();
+
+            if($file)
+            {
+                $newName = time() . '-' . $file->getClientOriginalName();
+                $conjoint->setImg($newName);
+                $file->move($this->getParameter('photo_dir'), $newName);
+            }
             $entityManager->flush();
+
+            unlink($this->getParameter('photo_dir').'/'.$oldimage);
 
             return $this->redirectToRoute('app_conjoints_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -112,11 +124,81 @@ final class ConjointsController extends AbstractController
     #[Route('/{id}', name: 'app_conjoints_delete', methods: ['POST'])]
     public function delete(Request $request, Conjoints $conjoint, EntityManagerInterface $entityManager): Response
     {
+         $oldimage = $conjoint->getImg();
+
         if ($this->isCsrfTokenValid('delete'.$conjoint->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($conjoint);
             $entityManager->flush();
+
+            unlink($this->getParameter('photo_dir').'/'.$oldimage);
+
         }
 
         return $this->redirectToRoute('app_conjoints_index', [], Response::HTTP_SEE_OTHER);
     }
+        #[Route('/conjoints/{id}/emprunter', name: 'app_conjoints_emprunter')]
+    public function emprunter(Conjoints $conjoint, EntityManagerInterface $em): Response
+    {
+        // Vérifie si le conjoint est déjà emprunté
+        if ($conjoint->getEmprunteur()) {
+            $this->addFlash('error', 'Ce conjoint est déjà emprunté.');
+            return $this->redirectToRoute('app_conjoints_index');
+        }
+
+        // On empêche le propriétaire de s’emprunter lui-même
+        if ($conjoint->getProprietaire() === $this->getUser()) {
+            $this->addFlash('error', 'Vous ne pouvez pas emprunter votre propre conjoint.');
+            return $this->redirectToRoute('app_conjoints_index');
+        }
+
+        // On définit l’emprunteur et l’état d’acceptation
+        $conjoint->setEmprunteur($this->getUser());
+        $conjoint->setAccept(false); // le propriétaire doit encore valider
+
+        $em->flush();
+
+        $this->addFlash('success', 'Demande d\'emprunt envoyée.');
+        return $this->redirectToRoute('app_conjoints_index');
+    }
+
+        #[Route('/conjoints/{id}/accepter', name: 'app_conjoints_accepter')]
+    public function accepter(Conjoints $conjoint, EntityManagerInterface $em): Response
+    {
+        // Vérifie que l'utilisateur est bien le propriétaire
+        if ($conjoint->getProprietaire() !== $this->getUser()) {
+            $this->addFlash('error', 'Vous n\'êtes pas propriétaire de ce conjoint.');
+            return $this->redirectToRoute('app_conjoints_index');
+        }
+
+        // Validation de l’emprunt
+        $conjoint->setAccept(true);
+        $em->flush();
+
+        $this->addFlash('success', 'Vous avez accepté l\'emprunt.');
+        return $this->redirectToRoute('app_conjoints_index');
+    }
+
+        #[Route('/conjoints/{id}/rendre', name: 'app_conjoints_rendre')]
+    public function rendre(Conjoints $conjoint, EntityManagerInterface $em): Response
+    {
+        // Vérifie que l’utilisateur qui rend est bien l’emprunteur
+        if ($conjoint->getEmprunteur() !== $this->getUser()) {
+            $this->addFlash('error', 'Vous ne pouvez pas rendre ce conjoint.');
+            return $this->redirectToRoute('app_conjoints_index');
+        }
+
+        // Rendre le conjoint disponible
+        $conjoint->setEmprunteur(null);
+        $conjoint->setAccept(false);
+
+        $em->flush();
+
+        $this->addFlash('success', 'Vous avez rendu ce conjoint.');
+        return $this->redirectToRoute('app_conjoints_index');
+    }
+
+
+
+
+    
 }

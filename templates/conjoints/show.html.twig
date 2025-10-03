@@ -66,9 +66,29 @@
         <div>
             <div style="background: var(--background-light); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; text-align: center;">
                 <h3 style="margin-bottom: 1rem; color: var(--text-dark);">Intéressé(e) ?</h3>
-                <button style="font-size: 1.1rem; padding: 15px 30px; margin-bottom: 1rem;">
-                    Demander le prêt
-                </button>
+    <div>
+        <h3>{{ conjoint.pseudo }} ({{ conjoint.age }} ans)</h3>
+        {% if user.id != conjoint.proprietaire and conjoint.emprunteur is null %}
+            <a href="{{ path('app_conjoints_emprunter', {id: conjoint.id}) }}">
+                <button>Emprunter</button>
+            </a>
+        {% elseif conjoint.emprunteur == app.user and conjoint.accept %}
+            <span>Vous l'avez emprunté ✅</span>
+            <a href="{{ path('app_conjoints_rendre', {id: conjoint.id}) }}">
+                <button>Rendre</button>
+            </a>
+        {% elseif conjoint.emprunteur == app.user and not conjoint.accept %}
+            <span>En attente de validation du propriétaire ⏳</span>
+        {% else %}
+            <span>Déjà emprunté par {{ conjoint.emprunteur.pseudo }}</span>
+        {% endif %}
+
+        {% if conjoint.proprietaire == app.user and conjoint.emprunteur and not conjoint.accept %}
+            <a href="{{ path('app_conjoints_accepter', {id: conjoint.id}) }}">
+                <button>Accepter</button>
+            </a>
+        {% endif %}
+    </div>
                 <p style="color: var(--text-light); font-size: 0.9rem;">
                     Votre demande sera directement envoyé au propriétaire du produit
                 </p>
