@@ -1,3 +1,10 @@
 body {
-    background-color: skyblue;
+    background-color: #F1eee2;
+}
+.logo img {
+    width: 100%;
+}
+.logo{
+    width: 230px;
+    margin: 20px auto;
 }

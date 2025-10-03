@@ -3,6 +3,9 @@
 {% block title %}Conjoints{% endblock %}
 
 {% block body %}
+
+<a href="{{ path('app_conjoints_index') }}"><button>Retour à la liste</button></a>
+
 <h1>{{ conjoint.pseudo }}</h1>
 
 <div><img src=" {{ asset('uploads/' ~ conjoint.img) }} " alt=""></div>
@@ -22,12 +25,13 @@
 <div><button>Emprunter</button></div>
 
 
-<a href="{{ path('app_conjoints_index') }}">Retour à la liste</a>
 
-<a href="{{ path('app_conjoints_edit', {'id': conjoint.id}) }}">Modifier</a>
+{% if is_granted('ROLE_ADMIN') %}
+
+<a href="{{ path('app_conjoints_edit', {'id': conjoint.id}) }}"><button>Modifier</button></a>
 
 {{ include('conjoints/_delete_form.html.twig') }}
-
+{% endif %}
 <h2>Commentaires</h2>
 
 <div>
@@ -39,10 +43,8 @@
 
     {% endfor %}
 </div>
-{# {{form(form)}}
-#}
-{{ form_start(form) }}
-{{ form_widget(form) }}
-<button class="btn">{{ button_label|default('Save') }}</button>
+ {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
 {% endblock %}
