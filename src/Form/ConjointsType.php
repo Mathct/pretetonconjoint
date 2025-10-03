@@ -66,6 +66,10 @@ class ConjointsType extends AbstractType
             ->add('proprietaire', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'id',
+                'attr' => [
+                    'style' => 'display:none',
+                ],
+                'label' => false,
             ])
 
             // ->add('emprunteur', EntityType::class, [
