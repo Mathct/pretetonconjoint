@@ -73,7 +73,7 @@ final class ConjointsController extends AbstractController
             $entityManager->persist($commentaire);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_conjoints_show', ['id'=> $id], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute( 'app_conjoints_show', ['id'=> $id], Response::HTTP_SEE_OTHER);
         }
 
         $commentaires = $conjoint->getCommentaires();
