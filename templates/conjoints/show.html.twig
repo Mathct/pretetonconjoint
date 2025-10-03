@@ -11,15 +11,17 @@
 <div><img src=" {{ asset('uploads/' ~ conjoint.img) }} " alt=""></div>
 
 <div><strong>Age:</strong> {{ conjoint.age }}</div>
-        
+
 <div><strong>Categorie :</strong> {{ conjoint.categorie }}</div>
-        
+
 <div><strong>Sexe :</strong> {{ conjoint.sexe }}</div>
-        
+
 <div><strong>Style :</strong> {{ conjoint.style }}</div>
-        
+
 <div><strong>Description :</strong> {{ conjoint.description }}</div>
-        
+
+<div><strong>Note moyenne : </strong> {{ moyenne}}</div>
+
 <div><button>Emprunter</button></div>
 
 
@@ -31,17 +33,18 @@
 {{ include('conjoints/_delete_form.html.twig') }}
 {% endif %}
 <h2>Commentaires</h2>
+
 <div>
     {% for commentaire in conjoint.commentaires %}
-        <strong>Utilisateur :</strong> {{commentaire.user.pseudo}}<br>
-        <strong>Date de publication:</strong> {{ commentaire.createAt ? commentaire.createAt|date('Y-m-d H:i:s') : '' }}<br>
-        <strong>Commentaire :</strong> {{commentaire.commentaire}}<br>
-        <strong>Note :</strong> {{commentaire.note}}<br><br>
-    
-        {% endfor %}
+    <strong>Utilisateur :</strong> {{commentaire.user.pseudo}}<br>
+    <strong>Date de publication :</strong> {{ commentaire.createAt ? commentaire.createAt|date('Y-m-d H:i:s') : '' }}<br>
+    <strong>Commentaire :</strong> {{commentaire.commentaire}}<br>
+    <strong>Note :</strong> {{commentaire.note}}<br><br>
+
+    {% endfor %}
 </div>
  {{ form_start(form) }}
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
- {% endblock %}
+{% endblock %}
