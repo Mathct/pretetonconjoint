@@ -36,11 +36,19 @@ class CommentairesType extends AbstractType
             ->add('conjoint', EntityType::class, [
                 'class' => Conjoints::class,
                 'choice_label' => 'id',
+                'attr' => [
+                    'style' => 'display:none',
+                ],
+                'label' => false,
             ])
 
             ->add('user', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'id',
+                'attr' => [
+                    'style' => 'display:none',
+                ],
+                'label' => false,
             ])
          
 
