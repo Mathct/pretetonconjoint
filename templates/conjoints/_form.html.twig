@@ -1,4 +1,51 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Sauvegarder') }}</button>
+{{ form_start(form, {'attr': {'class': 'styled-form'}}) }}
+    <div class="form-group">
+        {{ form_label(form.pseudo, 'Pseudonyme', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.pseudo, {'attr': {'class': 'form-control', 'placeholder': 'Pseudonyme du conjoint'}}) }}
+        {{ form_errors(form.pseudo) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.img, 'Photo de profil', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.img, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.img) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.age, 'Âge', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.age, {'attr': {'class': 'form-control', 'placeholder': 'Âge du conjoint'}}) }}
+        {{ form_errors(form.age) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.sexe, 'Genre', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.sexe, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.sexe) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.categorie, 'Catégorie', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.categorie, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.categorie) }}
+    </div>
+
+    {% if form.style is defined %}
+    <div class="form-group">
+        {{ form_label(form.style, 'Style', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.style, {'attr': {'class': 'form-control', 'placeholder': 'Style du conjoint'}}) }}
+        {{ form_errors(form.style) }}
+    </div>
+    {% endif %}
+
+    {% if form.description is defined %}
+    <div class="form-group">
+        {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 4, 'placeholder': 'Description du conjoint...'}}) }}
+        {{ form_errors(form.description) }}
+    </div>
+    {% endif %}
+
+    <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">
+        {{ button_label|default('Sauvegarder') }}
+    </button>
 {{ form_end(form) }}

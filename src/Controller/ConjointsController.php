@@ -74,8 +74,14 @@ final class ConjointsController extends AbstractController
         {
             $notes[] = $commentaire->getNote();
         }
+        if(count($notes) >= 1)
+        {
         $moyenne = array_sum($notes) / count($notes);
         $moyenne = round($moyenne, 1);
+        }
+        else{
+            $moyenne ='';
+        }
 
 
         return $this->render('conjoints/show.html.twig', [

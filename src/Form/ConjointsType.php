@@ -45,7 +45,7 @@ class ConjointsType extends AbstractType
                 'Geek(ette)' => 'Geek(ette)',
                 'Hetero curieux(se)' => 'Hete)ro curieux(se)',
                 'Sportif(ve) extrême' => 'Sportif(ve) extrême',
-                '5auvage' => '5auvage',
+                'Sauvage' => 'Sauvage',
                 ],
                  'placeholder' => 'Choisir',
             ])

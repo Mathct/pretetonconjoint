@@ -1,50 +1,149 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Conjoints{% endblock %}
+{% block title %}{{ conjoint.pseudo }} - Prête Ton Conjoint{% endblock %}
 
 {% block body %}
-
-<a href="{{ path('app_conjoints_index') }}"><button>Retour à la liste</button></a>
-
-<h1>{{ conjoint.pseudo }}</h1>
-
-<div><img src=" {{ asset('uploads/' ~ conjoint.img) }} " alt=""></div>
-
-<div><strong>Age:</strong> {{ conjoint.age }}</div>
-
-<div><strong>Categorie :</strong> {{ conjoint.categorie }}</div>
-
-<div><strong>Sexe :</strong> {{ conjoint.sexe }}</div>
-
-<div><strong>Style :</strong> {{ conjoint.style }}</div>
-
-<div><strong>Description :</strong> {{ conjoint.description }}</div>
-
-<div><strong>Note moyenne : </strong> {{ moyenne}}</div>
-
-<div><button>Emprunter</button></div>
-
-
-
-{% if is_granted('ROLE_ADMIN') %}
-
-<a href="{{ path('app_conjoints_edit', {'id': conjoint.id}) }}"><button>Modifier</button></a>
-
-{{ include('conjoints/_delete_form.html.twig') }}
-{% endif %}
-<h2>Commentaires</h2>
-
-<div>
-    {% for commentaire in conjoint.commentaires %}
-    <strong>Utilisateur :</strong> {{commentaire.user.pseudo}}<br>
-    <strong>Date de publication :</strong> {{ commentaire.createAt ? commentaire.createAt|date('Y-m-d H:i:s') : '' }}<br>
-    <strong>Commentaire :</strong> {{commentaire.commentaire}}<br>
-    <strong>Note :</strong> {{commentaire.note}}<br><br>
-
-    {% endfor %}
+<div style="margin-bottom: 2rem;">
+    <a href="{{ path('app_conjoints_index') }}">
+        <button class="btn-secondary">← Retour à la liste</button>
+    </a>
 </div>
- {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">{{ conjoint.pseudo }}</h1>
+        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+            <span style="background: var(--gradient-primary); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600;">
+                {{ conjoint.categorie }}
+            </span>
+            <span style="color: var(--secondary-color); font-weight: 600; display: flex; align-items: center; gap: 0.25rem;">
+                ⭐ {{ moyenne|default('-') }}/5
+            </span>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
+        <!-- Photo et informations principales -->
+        <div>
+            <div style="position: relative; margin-bottom: 2rem;">
+                <img src="{{ asset('uploads/' ~ conjoint.img) }}" alt="Photo de {{ conjoint.pseudo }}" 
+                     style="width: 100%; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 30px var(--shadow-soft);">
+            </div>
+
+            <div style="background: var(--background-light); padding: 1.5rem; border-radius: 15px; margin-bottom: 2rem;">
+                <h3 style="margin-bottom: 1rem; color: var(--text-dark);">Informations</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="product-detail">
+                        <strong>Âge:</strong>
+                        <span>{{ conjoint.age }} ans</span>
+                    </div>
+                    <div class="product-detail">
+                        <strong>Genre:</strong>
+                        <span>{{ conjoint.sexe }}</span>
+                    </div>
+                    <div class="product-detail">
+                        <strong>Catégorie:</strong>
+                        <span>{{ conjoint.categorie }}</span>
+                    </div>
+                    {% if conjoint.style is defined and conjoint.style %}
+                    <div class="product-detail">
+                        <strong>Style:</strong>
+                        <span>{{ conjoint.style }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if conjoint.description is defined and conjoint.description %}
+            <div style="background: var(--background-light); padding: 1.5rem; border-radius: 15px;">
+                <h3 style="margin-bottom: 1rem; color: var(--text-dark);">Description</h3>
+                <p style="color: var(--text-light); line-height: 1.6;">{{ conjoint.description }}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Actions et commentaires -->
+        <div>
+            <div style="background: var(--background-light); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; text-align: center;">
+                <h3 style="margin-bottom: 1rem; color: var(--text-dark);">Intéressé(e) ?</h3>
+                <button style="font-size: 1.1rem; padding: 15px 30px; margin-bottom: 1rem;">
+                    Demander le prêt
+                </button>
+                <p style="color: var(--text-light); font-size: 0.9rem;">
+                    Votre demande sera directement envoyé au propriétaire du produit
+                </p>
+            </div>
+
+            {% if is_granted('ROLE_ADMIN') %}
+            <div style="background: #FEF2F2; padding: 1.5rem; border-radius: 15px; border: 1px solid #FECACA; margin-bottom: 2rem;">
+                <h3 style="color: #DC2626; margin-bottom: 1rem;">Administration</h3>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="{{ path('app_conjoints_edit', {'id': conjoint.id}) }}">
+                        <button class="btn-secondary">Modifier</button>
+                    </a>
+                    {{ include('conjoints/_delete_form.html.twig') }}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Formulaire de commentaire -->
+            <div style="background: var(--background-white); padding: 2rem; border-radius: 20px; box-shadow: 0 5px 15px var(--shadow-soft);">
+                <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">Laisser un commentaire</h3>
+                {{ form_start(form) }}
+                    <div class="form-group">
+                        {{ form_label(form.commentaire, 'Votre commentaire', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.commentaire, {'attr': {'class': 'form-control', 'rows': 4, 'placeholder': 'Partagez votre expérience...'}}) }}
+                        {{ form_errors(form.commentaire) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.note, 'Note', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.note, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.note) }}
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">
+                        Publier le commentaire
+                    </button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Section des commentaires existants -->
+    {% if conjoint.commentaires|length > 0 %}
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-light);">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Commentaires ({{ conjoint.commentaires|length }})</h2>
+        
+        <div style="display: grid; gap: 1.5rem;">
+            {% for commentaire in conjoint.commentaires %}
+            <div style="background: var(--background-light); padding: 1.5rem; border-radius: 15px; border-left: 4px solid var(--primary-color);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div>
+                        <strong style="color: var(--text-dark);">{{ commentaire.user.pseudo }}</strong>
+                        <span style="color: var(--secondary-color); margin-left: 0.5rem;">
+                            {% for i in 1..5 %}
+                                {% if i <= commentaire.note %}
+                                    ⭐
+                                {% else %}
+                                    ☆
+                                {% endif %}
+                            {% endfor %}
+                        </span>
+                    </div>
+                    <span style="color: var(--text-light); font-size: 0.9rem;">
+                        {{ commentaire.createAt ? commentaire.createAt|date('d/m/Y à H:i') : '' }}
+                    </span>
+                </div>
+                <p style="color: var(--text-light); line-height: 1.6; margin: 0;">{{ commentaire.commentaire }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-light);">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">💬</div>
+        <h3 style="color: var(--text-light); margin-bottom: 0.5rem;">Aucun commentaire pour le moment</h3>
+        <p style="color: var(--text-light);">Soyez le premier à laisser un avis !</p>
+    </div>
+    {% endif %}
+</div>
 {% endblock %}
