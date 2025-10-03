@@ -6,6 +6,7 @@ use App\Entity\Commentaires;
 use App\Form\CommentairesType;
 use App\Repository\CommentairesRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -69,13 +70,17 @@ final class CommentairesController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_commentaires_delete', methods: ['POST'])]
-    public function delete(Request $request, Commentaires $commentaire, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Commentaires $commentaire, EntityManagerInterface $entityManager, $id): Response
     {
+        $conjoint = $commentaire->getConjoint();
+        $conjointId = $conjoint->getId();
+
+
         if ($this->isCsrfTokenValid('delete'.$commentaire->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($commentaire);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_commentaires_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_conjoints_show', ['id' => $conjointId], Response::HTTP_SEE_OTHER);
     }
 }
