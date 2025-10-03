@@ -1,28 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Se connecter!{% endblock %}
+{% block title %}Se connecter - Prête Ton Conjoint{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if app.user %}
-        <div class="mb-3">
-            Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+<div class="form-container">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">Connexion</h1>
+            <p style="color: var(--text-light); text-align: center;">Connectez-vous pour accéder à votre compte</p>
         </div>
-    {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Mot de passe</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-    <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Se connecter
-    </button>
-</form>
+            {% if app.user %}
+                <div class="alert" style="background: #D1FAE5; color: #065F46; border: 1px solid #A7F3D0;">
+                    Vous êtes connecté en tant que <strong>{{ app.user.userIdentifier }}</strong>
+                    <br><a href="{{ path('app_logout') }}" style="color: var(--primary-color); text-decoration: none;">Déconnexion</a>
+                </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="inputEmail">Adresse email</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus placeholder="Votre adresse email">
+            </div>
+
+            <div class="form-group">
+                <label for="inputPassword">Mot de passe</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required placeholder="Votre mot de passe">
+            </div>
+
+            <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+
+            <button class="btn" type="submit" style="width: 100%; margin-top: 1rem;">
+                Se connecter
+            </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-light);">
+            <p style="color: var(--text-light);">Pas encore de compte ?</p>
+            <a href="{{ path('app_register') }}" class="btn btn-secondary" style="margin-top: 0.5rem;">Créer un compte</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

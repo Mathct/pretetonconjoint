@@ -1,34 +1,83 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Conjoints index{% endblock %}
+{% block title %}Conjoints disponibles - Prête Ton Conjoint{% endblock %}
 
 {% block body %}
-    <h1>Conjoints dans ton quartier</h1>
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">Conjoints disponibles dans votre quartier</h1>
+        <p style="color: var(--text-light); text-align: center;">Découvrez les profils près de chez vous</p>
+    </div>
 
-        {% for conjoint in conjoints %}
-            
-                <div><strong>Pseudo : </strong>{{ conjoint.pseudo }}</div>
-                <div><strong>Note : </strong></div>
-                <div><img src=" {{ asset('uploads/' ~ conjoint.img) }} " alt=""></div>
-                <div><strong>Age : </strong>{{ conjoint.age }} ans</div>
-                <div><strong>Genre : </strong>{{ conjoint.sexe }}</div>
-                <div><strong>Catégorie : </strong>{{ conjoint.categorie }}</div>
-                {% if app.user %}
-                <div>
-                    <a href="{{ path('app_conjoints_show', {'id': conjoint.id}) }}"><button>Voir le produit</button></a>
-                </div>
-                {% else %}
-                <div>
-                    <a href="{{ path('app_login') }}"><button>Connectez vous pour profiter du produit</button></a>
-                </div>
-                {% endif %}
-        {% else %}
-            
-                <td colspan="9">Aucun produits disponible</td>
-            
-        {% endfor %}
-        </tbody>
-    </table>
+    {% if conjoints|length > 0 %}
+        <div class="conjoints-list">
+            {% for conjoint in conjoints %}
+                <div class="conjoint-card">
+                    <div class="conjoint-image">
+                        <img src="{{ asset('uploads/' ~ conjoint.img) }}" alt="Photo de {{ conjoint.pseudo }}">
+                    </div>
+                    
+                    <div class="conjoint-info">
+                        <div class="conjoint-header">
+                            <h3 class="conjoint-title">{{ conjoint.pseudo }}</h3>
+                            <span class="conjoint-badge">{{ conjoint.categorie }}</span>
+                        </div>
+                        
+                        <div class="conjoint-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Âge:</span>
+                                <span class="detail-value">{{ conjoint.age }} ans</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Genre:</span>
+                                <span class="detail-value">{{ conjoint.sexe }}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Note:</span>
+                                <span class="detail-rating">★★★★☆</span>
+                            </div>
+                        </div>
 
-    
+                        <div class="conjoint-actions">
+                            {% if app.user %}
+                                <a href="{{ path('app_conjoints_show', {'id': conjoint.id}) }}">
+                                    <button>Voir le profil</button>
+                                </a>
+                            {% else %}
+                                <a href="{{ path('app_login') }}">
+                                    <button class="btn-secondary">Se connecter pour voir</button>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 3rem 2rem;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">👥</div>
+            <h3 style="color: var(--text-light); margin-bottom: 1rem;">Aucun profil disponible</h3>
+            <p style="color: var(--text-light); margin-bottom: 2rem;">Il n'y a actuellement aucun conjoint disponible dans votre quartier.</p>
+            {% if app.user %}
+                <a href="{{ path('app_conjoints_new') }}">
+                    <button>Soyez le premier à ajouter un profil</button>
+                </a>
+            {% else %}
+                <a href="{{ path('app_register') }}">
+                    <button>Créer un compte pour commencer</button>
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+{% if app.user %}
+    <div style="text-align: center; margin-top: 2rem;">
+        <a href="{{ path('app_conjoints_new') }}">
+            <button style="font-size: 1.1rem; padding: 15px 30px;">
+                + Ajouter un nouveau profil
+            </button>
+        </a>
+    </div>
+{% endif %}
 {% endblock %}

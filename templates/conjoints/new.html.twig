@@ -1,11 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouveaux Conjoints{% endblock %}
+{% block title %}Créer un nouveau profil - Prête Ton Conjoint{% endblock %}
 
 {% block body %}
-    <h1>Créer un nouveaux conjoint</h1>
+<div class="form-container">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">Créer un nouveau profil</h1>
+            <p style="color: var(--text-light); text-align: center;">Ajoutez un nouveau conjoint à votre collection</p>
+        </div>
 
-    {{ include('conjoints/_form.html.twig') }}
+        {{ include('conjoints/_form.html.twig') }}
+    </div>
 
-    <a href="{{ path('app_conjoints_index') }}">Retour à liste</a>
+    <div style="text-align: center; margin-top: 2rem;">
+        <a href="{{ path('app_conjoints_index') }}">
+            <button class="btn-secondary">← Retour à la liste</button>
+        </a>
+    </div>
+</div>
 {% endblock %}
