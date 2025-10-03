@@ -82,21 +82,17 @@
         {% elseif conjoint.emprunteur == app.user and not conjoint.accept %}
             <span>En attente de validation du propriétaire ⏳</span>
         {% elseif conjoint.proprietaire == app.user and not conjoint.accept %}
-            <span>Demande d'emprunt de {{ conjoint.emprunteur.pseudo  }}</span>
+            <div>Demande d'emprunt de {{ conjoint.emprunteur.pseudo  }}</div>
         {% else %}
             <span>Déjà emprunté par {{ conjoint.emprunteur.pseudo }}</span>
         {% endif %}
 
         {% if conjoint.proprietaire == app.user and conjoint.emprunteur and not conjoint.accept %}
-            <a href="{{ path('app_conjoints_accepter', {id: conjoint.id}) }}">
-                <button>Accepter</button>
-            </a>
+            <a href="{{ path('app_conjoints_accepter', {id: conjoint.id}) }}"><button>Accepter</button></a>
         {% endif %}
 
         {% if conjoint.proprietaire == app.user and conjoint.emprunteur != null and not conjoint.accept %}
-            <a href="{{ path('app_conjoints_refus', {id: conjoint.id}) }}">
-                <button>Refuser</button>
-            </a>
+            <a href="{{ path('app_conjoints_refus', {id: conjoint.id}) }}"><button>Refuser</button></a>
         {% endif %}
             </div>
                 <p style="color: var(--text-light); font-size: 0.9rem;">
