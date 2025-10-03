@@ -27,7 +27,11 @@ final class ConjointsController extends AbstractController
     #[Route('/new', name: 'app_conjoints_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+
+        $user = $this->getUser();
+
         $conjoint = new Conjoints();
+        $conjoint->setProprietaire($user);
         $form = $this->createForm(ConjointsType::class, $conjoint);
         $form->handleRequest($request);
 
